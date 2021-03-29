@@ -1,16 +1,13 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  id:  String, // String is shorthand for {type: String}
-  name: String,
-  lastName:   String,
-  email: String,
-  birthdate:  Date,
-  hidden: Boolean,
-  
-},
-{timestamps: true}
-);
+    name: String,
+    lastName: String,
+    email: String,
+    birthdate: Date // Format MM/dd/yyyy
+  },
+  {timestamps: true}//Add creation date and modification
+  );
 
-module.exports = mongoose.model ('users', userSchema);
+  module.exports = mongoose.model('users', userSchema);
