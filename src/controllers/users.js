@@ -1,4 +1,5 @@
 const express = require('express');
+const Iridium =require('iridium');
 const User = require('../models/user')
 /**
  * 
@@ -43,10 +44,16 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
     try {
         const { id } = req.params;
+        ///2###let user = await User.findById(id);
         let user = req.body;
-        user._id = id;
+        ///1-->user._id = id;
 
-        await User.updateOne(user);
+        ///2###await User.findOneAndUpdate(user);
+        ///1-->await User.updateOne(user);
+
+        user._id = await Iridium.toObjectID(user._id);
+        await this.model.update(user._id, user, { multi: false });
+
 
         const result = {
             message: 'User updated',
