@@ -47,7 +47,7 @@ const updateUser = async (req, res, next) => {
         user._id = id;
 
         await User.updateOne(user);
-        
+
         const result = {
             message: 'User updated',
             user
@@ -63,15 +63,13 @@ const updateUser = async (req, res, next) => {
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-const updatePartialUser = (req, res, next) => {
-    try {
-        const result = {
-            message: 'User updated with patch'
-        }
-        res.json(result);
-    } catch (err) {
-        next(err);
+const updatePartialUser = (req, res) => {
+
+    const result = {
+        message: 'User updated with patch'
     }
+    res.json(result);
+
 };
 
 /**
