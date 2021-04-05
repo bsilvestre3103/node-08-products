@@ -53,7 +53,6 @@ const updateUser = async (req, res, next) => {
 
         const userUpdated = await User.findByIdAndUpdate(id, user, { new: true });
 
-        logger.info('Query Despues: ' + JSON.stringify(userUpdated));
         const result = {
             message: 'User updated',
             userUpdated
