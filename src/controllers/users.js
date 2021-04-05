@@ -1,6 +1,7 @@
 const express = require('express');
-const Iridium =require('iridium');
 const User = require('../models/user')
+const logger = require('../loaders/logger');
+
 /**
  * 
  * @param {express.Request} req 
@@ -44,20 +45,18 @@ const createUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
     try {
         const { id } = req.params;
-        ///2###let user = await User.findById(id);
         let user = req.body;
         ///1-->user._id = id;
-
-        ///2###await User.findOneAndUpdate(user);
         ///1-->await User.updateOne(user);
 
-        user._id = await Iridium.toObjectID(user._id);
-        await this.model.update(user._id, user, { multi: false });
+        logger.info('Query Antes: ' + JSON.stringify(req.body));
 
+        const userUpdated = await User.findByIdAndUpdate(id, user, { new: true });
 
+        logger.info('Query Despues: ' + JSON.stringify(userUpdated));
         const result = {
             message: 'User updated',
-            user
+            userUpdated
         }
         res.json(result);
     } catch (err) {
@@ -87,10 +86,11 @@ const updatePartialUser = (req, res) => {
 const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const user = await User.findById(id);
-        await user.remove();
+        //###const user = await User.findById(id);
 
-        //const id = req.params.id;
+        await User.findByIdAndRemove(id);
+        //###await user.remove();
+
         const result = {
             message: `User with id: ${id} deleted`
         }
