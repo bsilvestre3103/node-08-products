@@ -11,7 +11,11 @@ const Success = require('../handlers/successHandler');
  */
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await userService.findAll();
+        const filter = req.query.filter;
+        const options = req.query.options;
+        //logger.info('Params: ' + JSON.stringify(req.query));
+        const users = await userService.findAll(filter, options);
+
         res.json(new Success(users));
     } catch (err) {
         next(err);

@@ -5,9 +5,16 @@ class UserRepository {
 
     constructor() { }
 
+
     async findAll() {
         return await User.find();
+        
+    }
 
+    async findAllWithPagination(filter, options) {
+        //Use pagination => https://www.npmjs.com/package/mongoose-paginate-v2
+
+        return await User.paginate(filter, options);
     }
 
     async findById(id) {
