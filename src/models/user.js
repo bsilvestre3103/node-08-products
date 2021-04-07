@@ -1,13 +1,42 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new Schema({
-    name: String,
-    lastName: String,
-    email: String,
-    birthdate: Date // Format MM/dd/yyyy
+  name: {
+    type: String,
+    required: [true, 'Name required']
   },
-  {timestamps: true}//Add creation date and modification
-  );
+  lastName: {
+    type: String,
+    required: [true, 'lastName required']
+  },
+  email: {
+    type: String,
+    required: [true, 'Email required'],
+    unique: true,
+    index: true
+  },
+  birthdate: Date, // Format MM/dd/yyyy
+  password: {
+    type: String,
+    required: [true, 'Password required']
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'USER_ROLE',
+    enum: ['USER_ROLE', 'ADMIN_ROLE']
+  },
+  enable: {
+    type: Boolean,
+    required: true,
+    default: true
+  }
+},
+  { timestamps: true }//Add creation date and modification
+);
 
-  module.exports = mongoose.model('users', userSchema);
+userSchema.plugin(uniqueValidator, {message: 'ya existe en la BD.'});
+
+module.exports = mongoose.model('users', userSchema);
